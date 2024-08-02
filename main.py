@@ -1,8 +1,7 @@
+# -*- coding:utf-8 -*-
 """
-任务名称
-name: qinglongTool
-定时规则
-cron: 1 9 * * *
+cron: 15 2 * * *
+new Env('qinglongTool');
 """
 
 import json
