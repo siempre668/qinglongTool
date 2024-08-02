@@ -1,3 +1,10 @@
+"""
+任务名称
+name: qinglongTool
+定时规则
+cron: 1 9 * * *
+"""
+
 import json
 import traceback
 import time
