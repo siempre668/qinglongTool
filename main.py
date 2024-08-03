@@ -7,7 +7,6 @@ new Env('qinglongTool');
 import json
 import traceback
 import time
-
 import requests
 from json import dumps as jsonDumps
 import os
@@ -24,7 +23,7 @@ client_secret = "EOGn7Kt-Bhq2r8BvkOWqfNfu"
 api_headers = {
     "Accept": "application/json, text/plain, */*",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.131 Safari/537.36",
-    "Content-Type":"application/json"
+    "Content-Type": "application/json"
 }
 
 
@@ -35,28 +34,29 @@ class QL:
         """
         self.id = id
         self.secret = secret
+        self.auth = None
 
         self.log(f"")
         self.log(f"正在初始化")
-        self.log(f"尝试本地文件获取token")
 
-        self.api_Path = api_Path
-        self.api_url = f"http://{api_host}" + self.api_Path
-        token = self.get_token()
+        # 密钥对登录
+        self.log(f"优先使用应用密钥登录获取token")
+        self.api_Path = api_Path1
+        self.api_url = f"http://{api_host1}" + self.api_Path
+        token = self.login()
+
         if (token is None):
-            self.log(f"尝试使用应用密钥登录获取token")
-            self.api_Path = api_Path1
-            self.api_url = f"http://{api_host1}" + self.api_Path
-            self.login()
-        else:
-            self.auth= f"Bearer {token}"
-            self.log(f'本地文件获取token成功：{token}')
+            # 本地文件登录
+            self.log(f"尝试本地文件获取token")
+            self.api_Path = api_Path
+            self.api_url = f"http://{api_host}" + self.api_Path
+            token = self.get_token()
+            if token is not None:
+                self.auth = f"Bearer {token}"
 
         api_headers["Authorization"] = self.auth
-
-        self.api_headers=api_headers
-        self.log(f'self_headers：{self.api_headers}')
-
+        self.api_headers = api_headers
+        self.log(f'self=>Headers: {self.api_headers}')
 
     def log(self, content: str) -> None:
         """
@@ -79,25 +79,27 @@ class QL:
                 return None
         else:
             self.log(f"❌文件不存在：{path}")
+            return None
 
-    def login(self) -> None:
+    def login(self) -> str or None:
         """
-        登录
+        密钥对登录
         """
         url = f"{self.api_url}/auth/token?client_id={self.id}&client_secret={self.secret}"
         try:
-            self.log(f"登录青龙")
             rjson = requests.get(url).json()
-            self.log(f"登录地址：{url}")
-            self.log(f"登录结果：{rjson}")
+            self.log(f"密钥对登录地址：{url}")
+            self.log(f"密钥对登录结果：{rjson}")
             if (rjson['code'] == 200):
                 self.auth = f"{rjson['data']['token_type']} {rjson['data']['token']}"
-                self.log(f"登录成功：{self.auth}")
+                self.log(f"密钥对登录成功：{self.auth}")
+                return rjson['data']['token']
             else:
-                self.log(f"登录失败：{rjson['message']}")
+                self.log(f"密钥对登录失败：{rjson['message']}")
+                return None
         except Exception as e:
-            self.valid = False
-            self.log(f"登录失败：{str(e)}")
+            self.log(f"密钥对登录出错：{str(e)}")
+            return None
 
     def getEnvs(self) -> list:
         """
@@ -212,22 +214,30 @@ class QL:
         except Exception as e:
             self.log(f"删除日志内容出错:{str(e)}")
 
-    def getLogKeyWord(self,keyWord:str) -> list:
+    def getLogKeyWord(self, keyWord: str) -> list:
         """
         查找日志
         """
         result = ql.getLogList()
-        # print(result)
+
+        total = len(result)
         for index, value in enumerate(result):
             if 'title' in value:
                 if 'children' in value:
-                    for index, children in enumerate(value['children']):
+                    total1 = len(value['children'])
+                    for index1, children in enumerate(value['children']):
+
+                        #输出进度
+                        print(f"\r进度: {index1}/{total1}-{index}/{total}", end="")
+
                         if 'key' in children:
                             urlParam = f"/logs/detail?file={children['title']}&path={children['parent']}"
                             content = ql.getLogContent(urlParam)
                             if content.find(keyWord) > -1:
                                 self.log(f"已找到日志文件:{urlParam}")
-                                self.log(content)
+                                self.log(f"已找到日志文件内容:\n{content}")
+                                self.log(f"")
+
 
     def deleteLogAll(self) -> list:
         """
@@ -245,11 +255,16 @@ if __name__ == "__main__":
     # 登录即初始化参数
     ql = QL(client_id, client_secret)
 
-    # 查找日志
-    ql.getLogKeyWord("Jd转赚红包_抽奖提现")
+    if (ql.auth is not None):
+        ql.log("登录成功,准备执行任务")
+        # 查找日志
+        ql.getLogKeyWord("Jd转赚红包_抽奖提现2, 开始!")
 
-    # 删除日志
-    # ql.deleteLogAll()
+        # 删除日志
+        # ql.deleteLogAll()
 
-    # envs = ql.getEnvs()
-    # print(envs)
+        # envs = ql.getEnvs()
+        # print(envs)
+
+    ql.log("执行完成")
+    exit()
