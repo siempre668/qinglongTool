@@ -236,7 +236,7 @@ class QL:
                             if content.find(keyWord) > -1:
                                 self.log(f"************************************↓↓↓↓↓↓")
                                 self.log(f"已找到日志文件:{urlParam}")
-                                self.log(f"已找到日志文件内容:\n{content}")
+                                # self.log(f"已找到日志文件内容:\n{content}")
                                 self.log(f"************************************↑↑↑↑↑↑")
                                 self.log(f"")
 
