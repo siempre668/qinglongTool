@@ -266,5 +266,5 @@ if __name__ == "__main__":
         # envs = ql.getEnvs()
         # print(envs)
 
-    ql.log("执行完成")
+    ql.log("*************执行完成")
     exit()
