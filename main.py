@@ -228,12 +228,13 @@ class QL:
                     for index1, children in enumerate(value['children']):
 
                         # 输出进度
-                        print(f"\r进度: (子){index1}/{total1}-(总){index}/{total}", end="")
+                        print(f"\r搜寻进度: (子){index1}/{total1}-(总){index}/{total}", end="")
 
                         if 'key' in children:
                             urlParam = f"/logs/detail?file={children['title']}&path={children['parent']}"
                             content = ql.getLogContent(urlParam)
                             if content.find(keyWord) > -1:
+                                self.log(f"")
                                 self.log(f"已找到日志文件:{urlParam}")
                                 self.log(f"已找到日志文件内容:\n{content}")
                                 self.log(f"")
