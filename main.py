@@ -207,12 +207,12 @@ class QL:
         url = f"{self.api_url}/logs?t={t}"
         try:
             rjson = requests.delete(url, headers=self.api_headers, data=jsonDumps(data)).json()
-            if (rjson['code'] == 200):
-                self.log(f"删除日志文件夹:{filename}")
-            else:
+            if not (rjson['code'] == 200):
                 self.log(f"删除日志内容异常:{str(rjson)}")
+                self.log(f"")
         except Exception as e:
             self.log(f"删除日志内容出错:{str(e)}")
+            self.log(f"")
 
     def getLogKeyWord(self, keyWord: str) -> list:
         """
@@ -243,10 +243,11 @@ class QL:
         删除日志文件
         """
         result = ql.getLogList()
-        # self.log(f":{result}")
+        total = len(result)
         for index, value in enumerate(result):
             if 'title' in value:
-                self.log(f"即将删除：{value['title']}")
+                # 输出进度
+                print(f"\r删除进度: {index}/{total} => {value['title']}", end="")
                 ql.deleteLog(value['title'], "")
 
 
