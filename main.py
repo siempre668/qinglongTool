@@ -227,7 +227,7 @@ class QL:
                     total1 = len(value['children'])
                     for index1, children in enumerate(value['children']):
 
-                        #输出进度
+                        # 输出进度
                         print(f"\r进度: {index1}/{total1}-{index}/{total}", end="")
 
                         if 'key' in children:
@@ -237,7 +237,6 @@ class QL:
                                 self.log(f"已找到日志文件:{urlParam}")
                                 self.log(f"已找到日志文件内容:\n{content}")
                                 self.log(f"")
-
 
     def deleteLogAll(self) -> list:
         """
