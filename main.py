@@ -228,7 +228,7 @@ class QL:
                     for index1, children in enumerate(value['children']):
 
                         # 输出进度
-                        print(f"\r进度: {index1}/{total1}-{index}/{total}", end="")
+                        print(f"\r进度: (子){index1}/{total1}-(总){index}/{total}", end="")
 
                         if 'key' in children:
                             urlParam = f"/logs/detail?file={children['title']}&path={children['parent']}"
@@ -244,11 +244,14 @@ class QL:
         """
         result = ql.getLogList()
         total = len(result)
+        index=0
         for index, value in enumerate(result):
             if 'title' in value:
                 # 输出进度
-                print(f"\r删除进度: {index}/{total} => {value['title']}", end="")
+                index += 1
+                print(f"\r删除进度: {index},{index}/{total} => {value['title']}", end="")
                 ql.deleteLog(value['title'], "")
+
 
 
 if __name__ == "__main__":
