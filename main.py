@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 """
 cron: 15 2 * * *
-new Env('qinglongTool');
+new Env('自用管理工具');
 """
 
 import json
@@ -234,6 +234,7 @@ class QL:
                             urlParam = f"/logs/detail?file={children['title']}&path={children['parent']}"
                             content = ql.getLogContent(urlParam)
                             if content.find(keyWord) > -1:
+                                self.log(f"")
                                 self.log(f"************************************↓↓↓↓↓↓")
                                 self.log(f"已找到日志文件:{urlParam}")
                                 # self.log(f"已找到日志文件内容:\n{content}")
@@ -271,5 +272,6 @@ if __name__ == "__main__":
         # envs = ql.getEnvs()
         # print(envs)
 
+    ql.log(f"")
     ql.log("*************执行完成")
     exit()
