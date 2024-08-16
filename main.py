@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 """
-cron: 15 2 * * *
+cron: 1 15 23 * * *
 new Env('自用管理工具');
 """
 
@@ -12,7 +12,7 @@ from json import dumps as jsonDumps
 import os
 
 api_host = "localhost:5700"
-api_host1 = "192.168.50.70:5700"
+api_host1 = "192.168.50.168:5700"
 
 api_Path = "/api"
 api_Path1 = "/open"
@@ -264,10 +264,10 @@ if __name__ == "__main__":
     if (ql.auth is not None):
         ql.log("登录成功,准备执行任务")
         # 查找日志
-        ql.getLogKeyWord("Jd转赚红包_抽奖提现2, 开始!")
+        # ql.getLogKeyWord("Jd转赚红包_抽奖提现2, 开始!")
 
         # 删除日志
-        # ql.deleteLogAll()
+        ql.deleteLogAll()
 
         # envs = ql.getEnvs()
         # print(envs)
