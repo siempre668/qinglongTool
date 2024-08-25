@@ -5,11 +5,12 @@ new Env('自用管理工具');
 """
 
 import json
-import traceback
-import time
-import requests
-from json import dumps as jsonDumps
 import os
+import time
+import traceback
+from json import dumps as jsonDumps
+
+import requests
 
 api_host = "localhost:5700"
 api_host1 = "192.168.50.168:5700"
@@ -247,7 +248,7 @@ class QL:
         """
         result = ql.getLogList()
         total = len(result)
-        index=0
+        index = 0
         for index, value in enumerate(result):
             if 'title' in value:
                 # 输出进度
@@ -255,6 +256,19 @@ class QL:
                 print(f"\r删除进度: {index},{index}/{total} => {value['title']}", end="")
                 ql.deleteLog(value['title'], "")
 
+    def getTask(self) -> list:
+        """
+        获取日志列表
+        """
+        url = f"{self.api_url}/logs"
+        try:
+            rjson = requests.get(url, headers=self.api_headers).json()
+            if (rjson['code'] == 200):
+                return rjson['data']
+            else:
+                self.log(f"获取日志列表异常:{str(rjson)}")
+        except Exception as e:
+            self.log(f"获取日志列表出错:{str(e)}")
 
 
 if __name__ == "__main__":
@@ -267,10 +281,12 @@ if __name__ == "__main__":
         # ql.getLogKeyWord("Jd转赚红包_抽奖提现2, 开始!")
 
         # 删除日志
-        ql.deleteLogAll()
+        # ql.deleteLogAll()
 
         # envs = ql.getEnvs()
         # print(envs)
+
+        # 任务处理
 
     ql.log(f"")
     ql.log("*************执行完成")
