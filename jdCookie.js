@@ -1,6 +1,6 @@
 /**
  * COOKIES
- * name: script name
+ * name: 京东COOKIES
  * 定时规则
  * cron: 1 9 * * *
  */
