@@ -1,6 +1,7 @@
 /**
  * name: 依赖-USER_AGENTS
- * cron: 1 9 * * *
+ * 2025-01-01 01:01:00
+ * cron: 1 1 1 1 *
  */
 
 const USER_AGENTS = [
