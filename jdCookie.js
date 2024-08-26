@@ -1,7 +1,5 @@
 /**
- * COOKIES
- * name: 京东COOKIES
- * 定时规则
+ * name: 依赖-COOKIES
  * cron: 1 9 * * *
  */
 
