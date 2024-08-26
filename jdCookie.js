@@ -1,9 +1,11 @@
-/*
-此文件为Node.js专用。其他用户请忽略
+/**
+ * COOKIES
+ * name: script name
+ * 定时规则
+ * cron: 1 9 * * *
  */
-//此处填写京东账号cookie。
-const $ = new Env('京东cookies');
 
+//此处填写京东账号cookie。
 let CookieJDs = [
   '',//账号一ck,例:pt_key=XXX;pt_pin=XXX;
   '',//账号二ck,例:pt_key=XXX;pt_pin=XXX;如有更多,依次类推
