@@ -256,19 +256,19 @@ class QL:
                 print(f"\r删除进度: {index},{index}/{total} => {value['title']}", end="")
                 ql.deleteLog(value['title'], "")
 
-    def getTask(self) -> list:
-        """
-        获取日志列表
-        """
-        url = f"{self.api_url}/logs"
-        try:
-            rjson = requests.get(url, headers=self.api_headers).json()
-            if (rjson['code'] == 200):
-                return rjson['data']
-            else:
-                self.log(f"获取日志列表异常:{str(rjson)}")
-        except Exception as e:
-            self.log(f"获取日志列表出错:{str(e)}")
+    def get_tasklist(self) -> list:
+        tasklist = []
+        t = round(time.time() * 1000)
+        print(self.api_url)
+        url = f"{self.api_url}/crons?searchValue=&t={t}"
+        response = requests.get(url=url, headers=self.api_headers)
+        datas = json.loads(response.content.decode("utf-8"))
+        if datas.get("code") == 200:
+            try:
+                tasklist = datas.get("data").get("data")
+            except Exception:
+                tasklist = datas.get("data")
+        return tasklist
 
 
 if __name__ == "__main__":
@@ -287,6 +287,8 @@ if __name__ == "__main__":
         # print(envs)
 
         # 任务处理
+        tasklist=ql.get_tasklist()
+        print(tasklist)
 
     ql.log(f"")
     ql.log("*************执行完成")
