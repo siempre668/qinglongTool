@@ -1,0 +1,39 @@
+var cookies = oSession.oRequest.headers["Cookie"];
+        if (cookies != null && cookies.Contains("pt_key") && cookies.Contains("pt_pin") && oSession.uriContains("jd.com")) {
+            
+            // 提取 pt_key 后面15个字符的值
+            var pt_key_index = cookies.IndexOf("pt_pin=");
+            var pt_key_value =""
+            if (pt_key_index != -1) {
+                pt_key_value = cookies.Substring(pt_key_index + "pt_pin=".Length, 15);
+            }
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("-----------");
+            FiddlerApplication.Log.LogString("【JD_M】 (15 chars): " + pt_key_value);
+            FiddlerApplication.Log.LogString("Cookies: " + cookies);
+            FiddlerApplication.Log.LogString("URL: " + oSession.fullUrl);
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("                 ");
+            oSession["ui-color"] = "red";
+        }
+        
+        if (cookies != null && cookies.Contains("pinId") && cookies.Contains("_pst") && oSession.uriContains("jd.com")) {
+            
+            // 提取 pt_key 后面15个字符的值
+            var pt_key_index = cookies.IndexOf("_pst=");
+            var pt_key_value =""
+            if (pt_key_index != -1) {
+                pt_key_value = cookies.Substring(pt_key_index + "_pst=".Length, 15);
+            }
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("-----------");
+            FiddlerApplication.Log.LogString("【JD_PC】 (15 chars): " + pt_key_value);
+            FiddlerApplication.Log.LogString("Cookies: " + cookies);
+            FiddlerApplication.Log.LogString("URL: " + oSession.fullUrl);
+            FiddlerApplication.Log.LogString("                 ");
+            FiddlerApplication.Log.LogString("                 ");
+            oSession["ui-color"] = "red";
+        }
+        
